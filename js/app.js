@@ -1,7 +1,7 @@
 
 $(document).ready(function(){
 	
-	/*--- Display information modal box ---*/
+	//Display information modal box
   	$(".what").click(function(){
     	$(".overlay").fadeIn(1000);
   	});
@@ -13,12 +13,16 @@ $(document).ready(function(){
   	var actualNum = Math.floor((Math.random()*100)+1);
   	console.log(actualNum);
 
+  	//Establish guess Counter variable
+  	var counter = 0;
+
+  	//Measure distance of guess from actualNum
   	var measure = function () {
-  		var guess = $('#userGuess').val();
-  			console.log(guess);
+  		var guess = Math.round($('#userGuess').val());
   		var distance = Math.abs(guess - actualNum);
-  			console.log(distance);
-  		var feedback
+  			//console.log(distance);
+  		var feedback;
+  		//Convert distance to hot/cold
   		if (distance === 0) {
 	  		feedback = "Got it!";
 	  	} else if (distance <= 5) {
@@ -32,17 +36,31 @@ $(document).ready(function(){
 	  	} else if (distance > 30) {
 	  		feedback = "Ice Cold";
 	  	};
+	  	//Post feedback
 	  	$('#feedback').text(feedback);
-	  	$('#guessList').prepend('<li class = entry>'+guess+" - "+feedback+'</li>');
-	  	$('#userGuess').val('');
+		$('#guessList').prepend('<li class = entry>'+guess+" - "+feedback+'</li>');
   	};
-  	var counter = 0;
+
+  	//Press button to play game
   	$('#guessButton').click(function(event) {
-  		counter ++;
-  		measure();
-  		$('#count').text(counter);
-  		event.preventDefault();
+  		guess = Math.round($('#userGuess').val());
+  			console.log(guess);
+  		//Ensure guess is a number
+  		if (isNaN(guess) || guess <0 || guess>100) {
+			alert("Must input nubmers between 0-100!");
+	  		$('#feedback').text('Make your Guess!');
+	  	}
+  		else {
+  			counter ++;
+  			measure();
+  			$('#count').text(counter);	  			
+  		};
+  		//
+  		$('#userGuess').val('');	
+  		event.preventDefault(); 
   	});
+
+  	//New game
   	$('.new').click (function() {
   		actualNum = Math.floor((Math.random()*100)+1);
   		console.log(actualNum);
